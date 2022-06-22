@@ -14,19 +14,19 @@
 
 using namespace DuiLib;
 
-#ifdef _DEBUG
-#   ifdef _UNICODE
-#       pragma comment(lib, "..\\Lib\\DuiLib_ud.lib")
-#   else
-#       pragma comment(lib, "..\\Lib\\DuiLib_d.lib")
-#   endif
-#else
-#   ifdef _UNICODE
-#       pragma comment(lib, "..\\Lib\\DuiLib_u.lib")
-#   else
-#       pragma comment(lib, "..\\Lib\\DuiLib.lib")
-#   endif
-#endif
+//#ifdef _DEBUG
+//#   ifdef _UNICODE
+//#       pragma comment(lib, "..\\Lib\\DuiLib_ud.lib")
+//#   else
+//#       pragma comment(lib, "..\\Lib\\DuiLib_d.lib")
+//#   endif
+//#else
+//#   ifdef _UNICODE
+//#       pragma comment(lib, "..\\Lib\\DuiLib_u.lib")
+//#   else
+//#       pragma comment(lib, "..\\Lib\\DuiLib.lib")
+//#   endif
+//#endif
 
 
 //{{AFX_INSERT_LOCATION}}

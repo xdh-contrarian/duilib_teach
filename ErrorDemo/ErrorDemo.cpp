@@ -103,6 +103,6 @@ void ErrorDemo::sehDemo()
 	}
 
 	__except (EXCEPTION_EXECUTE_HANDLER) {
-		MessageBox(NULL, "exception", "exception", NULL);
+		MessageBox(NULL, _T("exception"), _T("exception"), NULL);
 	}
 }
