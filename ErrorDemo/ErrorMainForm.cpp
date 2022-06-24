@@ -51,7 +51,7 @@ void TestMemoryFunc()
 {
 	int* array = new int[10]; //使用vs提供的内存查看工具可以得知 数组的内存是连续的，可以通过memset来统一初始化内存
 	memset(array, 0x0F, sizeof(int) * 10);
-
+	array[0] = 15;
 
 	char chInput[512];
 	sprintf(chInput, "int:%d\n", array[0]);//手动修改内存， 请将array中的第一个数字大小修改为15，
@@ -253,6 +253,8 @@ void  ListMainForm::Notify(TNotifyUI& msg)
 		OnPrepare(msg);
 	else if (msg.sType == _T("click"))
 	{
+		CDuiString senderName = msg.pSender->GetName();
+
 		if (msg.pSender == m_pCloseBtn)
 		{
 			PostQuitMessage(0);
@@ -276,25 +278,25 @@ void  ListMainForm::Notify(TNotifyUI& msg)
 			OnSearch();
 		}
 
-		else if (msg.pSender->GetName().Compare((LPCTSTR)"btn_nullPointer")==0) {
+		else if (senderName == _T("btn_nullPointer")) {
 			ErrorDemo d; d.nullPointer();
 		}
-		else if (msg.pSender->GetName().Compare((LPCTSTR)"btn_errorPointer")==0) {
+		else if (senderName == _T("btn_errorPointer")) {
 			ErrorDemo d; d.errorPointer();
 		}
-		else if (msg.pSender->GetName().Compare((LPCTSTR)"btn_notUIThreadError")==0) {
+		else if (senderName == _T("btn_notUIThreadError")) {
 			ErrorDemo d; d.notUIThreadError(this);
-			//for (int i = 0; i < 100;i++) {// 增加触发的概率
+			for (int i = 0; i < 100;i++) {// 增加触发的概率
 				ChangeButtonName();
-			//}
+			}
 		}
-		else if (msg.pSender->GetName().Compare((LPCTSTR)"btn_stackOverFlow")==0) {
+		else if (senderName == _T("btn_stackOverFlow")) {
 			ErrorDemo d; d.stackOverFlow();
 		}
-		else if (msg.pSender->GetName().Compare((LPCTSTR)"btn_notInit")==0) {
+		else if (senderName == _T("btn_notInit")) {
 			ErrorDemo d; d.notInit();
 		}
-		else if (msg.pSender->GetName().Compare((LPCTSTR)"btn_sehDemo")==0) {
+		else if (senderName == _T("btn_sehDemo")) {
 			ErrorDemo d; d.sehDemo();
 		}
 
