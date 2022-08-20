@@ -32,3 +32,6 @@
 
 /bin/*.dll
 /bin/*.exe
+Temp
+Release
+Debug

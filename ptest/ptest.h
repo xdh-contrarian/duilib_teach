@@ -17,7 +17,9 @@ class PTEST : public WindowImplBase
 {
 public:
     PTEST() {
+        m_bBkColor = false;
     };
+	~PTEST() {};
 
     CDuiString GetSkinFolder()
     {
@@ -33,12 +35,11 @@ public:
     {
         return _T("Ptest");
     };
-
-    UINT GetClassStyle() const
-    {
-        return CS_DBLCLKS;
-    };
-
+    void OnClick(TNotifyUI& msg);
+    virtual LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+    virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+    LRESULT	OnSetFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 private:
-
+    CVerticalLayoutUI* bk;
+    bool               m_bBkColor;
 };
