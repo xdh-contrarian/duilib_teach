@@ -186,7 +186,7 @@ public:
 //
 typedef CControlUI* (*LPCREATECONTROL)(LPCTSTR pstrType);
 
-
+// 界面显示、消息管理类
 class DUILIB_API CPaintManagerUI
 {
 public:
@@ -374,8 +374,8 @@ public:
 	bool RemoveNativeWindow(HWND hChildWnd);
 
     void AddDelayedCleanup(CControlUI* pControl);
-    void AddMouseLeaveNeeded(CControlUI* pControl);
-    bool RemoveMouseLeaveNeeded(CControlUI* pControl);
+    void AddMouseLeaveNeeded(CControlUI* pControl);                                 // 添加到控件管理器中
+    bool RemoveMouseLeaveNeeded(CControlUI* pControl);                              // 根据控件指针从管理器中删除这个控件
 
 	bool AddTranslateAccelerator(ITranslateAccelerator *pTranslateAccelerator);
 	bool RemoveTranslateAccelerator(ITranslateAccelerator *pTranslateAccelerator);
@@ -475,7 +475,7 @@ private:
     CDuiPtrArray m_aDelayedCleanup;
     CDuiPtrArray m_aAsyncNotify;
     CDuiPtrArray m_aFoundControls;
-    CDuiPtrArray m_aNeedMouseLeaveNeeded;
+    CDuiPtrArray m_aNeedMouseLeaveNeeded;                                   // 控件管理器，封装的指针数组
     CDuiStringPtrMap m_mNameHash;
 	CDuiStringPtrMap m_mWindowAttrHash;
     CDuiStringPtrMap m_mOptionGroup;

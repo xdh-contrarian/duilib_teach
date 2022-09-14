@@ -429,20 +429,20 @@ LRESULT  ListMainForm::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 */
 LRESULT  ListMainForm::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	SIZE szRoundCorner = m_pm.GetRoundCorner();
-	if (!::IsIconic(*this) && (szRoundCorner.cx != 0 || szRoundCorner.cy != 0)) {
-		CDuiRect rcWnd;
-		::GetWindowRect(*this, &rcWnd);
-		rcWnd.Offset(-rcWnd.left, -rcWnd.top);
-		rcWnd.right++; rcWnd.bottom++;
-		RECT rc = { rcWnd.left, rcWnd.top + szRoundCorner.cx, rcWnd.right, rcWnd.bottom };
-		HRGN hRgn1 = ::CreateRectRgnIndirect(&rc);
-		HRGN hRgn2 = ::CreateRoundRectRgn(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom - szRoundCorner.cx, szRoundCorner.cx, szRoundCorner.cy);
-		::CombineRgn(hRgn1, hRgn1, hRgn2, RGN_OR);
-		::SetWindowRgn(*this, hRgn1, TRUE);
-		::DeleteObject(hRgn1);
-		::DeleteObject(hRgn2);
-	}
+	//SIZE szRoundCorner = m_pm.GetRoundCorner();
+	//if (!::IsIconic(*this) && (szRoundCorner.cx != 0 || szRoundCorner.cy != 0)) {
+	//	CDuiRect rcWnd;
+	//	::GetWindowRect(*this, &rcWnd);
+	//	rcWnd.Offset(-rcWnd.left, -rcWnd.top);
+	//	rcWnd.right++; rcWnd.bottom++;
+	//	RECT rc = { rcWnd.left, rcWnd.top + szRoundCorner.cx, rcWnd.right, rcWnd.bottom };
+	//	HRGN hRgn1 = ::CreateRectRgnIndirect(&rc);
+	//	HRGN hRgn2 = ::CreateRoundRectRgn(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom - szRoundCorner.cx, szRoundCorner.cx, szRoundCorner.cy);
+	//	::CombineRgn(hRgn1, hRgn1, hRgn2, RGN_OR);
+	//	::SetWindowRgn(*this, hRgn1, TRUE);
+	//	::DeleteObject(hRgn1);
+	//	::DeleteObject(hRgn2);
+	//}
 
 	bHandled = FALSE;
 	return 0;
@@ -450,17 +450,17 @@ LRESULT  ListMainForm::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHa
 
 LRESULT  ListMainForm::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	MONITORINFO oMonitor = {};
-	oMonitor.cbSize = sizeof(oMonitor);
-	::GetMonitorInfo(::MonitorFromWindow(*this, MONITOR_DEFAULTTOPRIMARY), &oMonitor);
-	CDuiRect rcWork = oMonitor.rcWork;
-	rcWork.Offset(-oMonitor.rcMonitor.left, -oMonitor.rcMonitor.top);
+	//MONITORINFO oMonitor = {};
+	//oMonitor.cbSize = sizeof(oMonitor);
+	//::GetMonitorInfo(::MonitorFromWindow(*this, MONITOR_DEFAULTTOPRIMARY), &oMonitor);
+	//CDuiRect rcWork = oMonitor.rcWork;
+	//rcWork.Offset(-oMonitor.rcMonitor.left, -oMonitor.rcMonitor.top);
 
-	LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
-	lpMMI->ptMaxPosition.x = rcWork.left;
-	lpMMI->ptMaxPosition.y = rcWork.top;
-	lpMMI->ptMaxSize.x = rcWork.right;
-	lpMMI->ptMaxSize.y = rcWork.bottom;
+	//LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+	//lpMMI->ptMaxPosition.x = rcWork.left;
+	//lpMMI->ptMaxPosition.y = rcWork.top;
+	//lpMMI->ptMaxSize.x = rcWork.right;
+	//lpMMI->ptMaxSize.y = rcWork.bottom;
 
 	bHandled = FALSE;
 	return 0;

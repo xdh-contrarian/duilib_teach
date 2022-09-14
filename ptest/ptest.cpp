@@ -5,19 +5,19 @@ void PTEST::OnClick(TNotifyUI& msg)
 	CDuiString sCtrlName = msg.pSender->GetName();
 	if (sCtrlName == _T("changeBkColor"))
 	{
-		if (sindex++ > 3)
-		{
-			Close();
-			PostQuitMessage(0);
-		}
+		//if (sindex++ > 3)
+		//{
+		//	Close();
+		//	PostQuitMessage(0);
+		//}
 		m_bBkColor = !m_bBkColor;
 		if (m_bBkColor)
 		{
 			bk->SetBkColor(0xffffffff);
-			Sleep(5000);
-			RECT rect;
-			GetWindowRect(m_hWnd, &rect);
-			MoveWindow(m_hWnd, 500, 100, rect.right - rect.left, rect.bottom - rect.top, true);
+			//Sleep(5000);
+			//RECT rect;
+			//GetWindowRect(m_hWnd, &rect);
+			//MoveWindow(m_hWnd, 500, 100, rect.right - rect.left, rect.bottom - rect.top, true);
 		}
 		else
 		{
@@ -43,7 +43,16 @@ LRESULT PTEST::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	// 测试标题栏大小改变消息
 	case WM_NCCALCSIZE:
 	{
-		MessageBox(m_hWnd, L"WM_NCCALCSIZE", L"消息", MB_OK);
+		//MessageBox(m_hWnd, L"WM_NCCALCSIZE", L"消息", MB_OK);
+		break;
+	}
+	//case WM_NCHITTEST:
+	//{
+	//	break;
+	//}
+	case WM_NCPAINT:
+	{
+		//MessageBox(m_hWnd, L"WM_NCPAINT", L"消息", MB_OK);
 		break;
 	}
 	default:

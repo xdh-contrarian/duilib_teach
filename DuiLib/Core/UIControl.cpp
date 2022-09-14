@@ -74,6 +74,7 @@ void CControlUI::SetName(LPCTSTR pstrName)
 
 LPVOID CControlUI::GetInterface(LPCTSTR pstrName)
 {
+    // strcmp 用来比较ANSI字符串，而_tcscmp用 来比较UNICODE（宽字符）的字符串。
     if( _tcscmp(pstrName, DUI_CTR_CONTROL) == 0 ) return this;
     return NULL;
 }
