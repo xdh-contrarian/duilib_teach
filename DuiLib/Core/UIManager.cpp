@@ -128,13 +128,16 @@ m_bLayeredChanged(false)
 {
 	if (m_SharedResInfo.m_DefaultFontInfo.sFontName.IsEmpty())
 	{
-		m_SharedResInfo.m_dwDefaultDisabledColor = 0xFFA7A6AA;
-		m_SharedResInfo.m_dwDefaultFontColor = 0xFF000000;
-		m_SharedResInfo.m_dwDefaultLinkFontColor = 0xFF0000FF;
-		m_SharedResInfo.m_dwDefaultLinkHoverFontColor = 0xFFD3215F;
-		m_SharedResInfo.m_dwDefaultSelectedBkColor = 0xFFBAE4FF;
+		m_SharedResInfo.m_dwDefaultDisabledColor = 0xFFA7A6AA;      // 失效颜色默认为粉红色
+		m_SharedResInfo.m_dwDefaultFontColor = 0xFF000000;          // 默认字体颜色为黑色
+		m_SharedResInfo.m_dwDefaultLinkFontColor = 0xFF0000FF;      // 默认超链接字体颜色为蓝色
+		m_SharedResInfo.m_dwDefaultLinkHoverFontColor = 0xFFD3215F; // 默认为老红色
+		m_SharedResInfo.m_dwDefaultSelectedBkColor = 0xFFBAE4FF;    // 默认选中状态背景色为淡蓝色
 
-		LOGFONT lf = { 0 };
+		LOGFONT lf = { 0 };  // LOGFONT结构定义了字体的属性
+        // GetStockObject 检索库存笔、画笔、字体或调色板之一的句柄
+        // DEFAULT_GUI_FONT 用户界面对象（例如菜单和对话框）的默认字体
+        // GetObject 检索指定图形对象的信息
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
 		lf.lfCharSet = DEFAULT_CHARSET;
 		HFONT hDefaultFont = ::CreateFontIndirect(&lf);
@@ -154,8 +157,11 @@ m_bLayeredChanged(false)
 	m_ResInfo.m_dwDefaultSelectedBkColor = m_SharedResInfo.m_dwDefaultSelectedBkColor;
 
     if( m_hUpdateRectPen == NULL ) {
+        // CreatePen 创建具有指定样式、宽度和颜色的逻辑笔  PS_SOLID 实线 
         m_hUpdateRectPen = ::CreatePen(PS_SOLID, 1, RGB(220, 0, 0));
         // Boot Windows Common Controls (for the ToolTip control)
+        // 注册和初始化某些常用的控制窗口类。此功能已过时。新应用程序应使用InitCommonControlsEx函数
+        // 在 Comctl32.dll 6.0 和更高版本下，InitCommonControls什么都不做
         ::InitCommonControls();
         ::LoadLibrary(_T("msimg32.dll"));
     }
@@ -205,17 +211,27 @@ CPaintManagerUI::~CPaintManagerUI()
     m_aPreMessages.Remove(m_aPreMessages.Find(this));
 }
 
+//************************************
+// Method:       Init
+// Description:  初始化界面元素，清除所有的图片、字体
+//               初始化所维护的窗口句柄，参数hWnd即为绘制管理的窗口句柄，并维护该窗口上下文，此外将该本管理器UI对象加入内部预处理器，以处理过滤全局的消息，该函数在窗口创建时被调用；
+// Author:       dhx
+// Param:        HWND hWnd
+// Param:        LPCTSTR pstrName
+// Date:         2022/10/08
+//************************************
 void CPaintManagerUI::Init(HWND hWnd, LPCTSTR pstrName)
 {
+    // IsWindow 确定指定的窗口句柄是否标识现有窗口
 	ASSERT(::IsWindow(hWnd));
 
-	m_mNameHash.Resize();
-	RemoveAllFonts();
-	RemoveAllImages();
-	RemoveAllDefaultAttributeList();
-	RemoveAllWindowCustomAttribute();
-	RemoveAllOptionGroups();
-	RemoveAllTimers();
+	m_mNameHash.Resize();       // 初始化 名称哈希表
+	RemoveAllFonts();           // 移除所有字体资源
+	RemoveAllImages();          // 移除所有有图片资源
+	RemoveAllDefaultAttributeList();    // 移除所有 属性哈希表
+	RemoveAllWindowCustomAttribute();   // m_mWindowAttrHash
+	RemoveAllOptionGroups();            // 移除所有选项
+	RemoveAllTimers();                  // 移除所有定时器
 
 	m_sName.Empty();
 	if( pstrName != NULL ) m_sName = pstrName;
@@ -1583,7 +1599,8 @@ void CPaintManagerUI::NeedUpdate()
 
 void CPaintManagerUI::Invalidate()
 {
-	if( !m_bLayered ) ::InvalidateRect(m_hWndPaint, NULL, FALSE);
+    // windows api ::InvalidateRect 将一个矩形添加到指定窗口的更新区域。更新区域表示必须重绘的窗口客户区部分
+	if( !m_bLayered ) ::InvalidateRect(m_hWndPaint, NULL, FALSE);  // 如果第2参数为NULL，则将整个客户区添加到更新区域。不擦除更新区域内的背景
 	else {
 		RECT rcClient = { 0 };
 		::GetClientRect(m_hWndPaint, &rcClient);
@@ -1735,6 +1752,7 @@ void CPaintManagerUI::RemoveAllOptionGroups()
 void CPaintManagerUI::MessageLoop()
 {
     MSG msg = { 0 };
+    // 
     while( ::GetMessage(&msg, NULL, 0, 0) ) {
         if( !CPaintManagerUI::TranslateMessage(&msg) ) {
             ::TranslateMessage(&msg);
@@ -1766,6 +1784,8 @@ CControlUI* CPaintManagerUI::GetFocus() const
 
 void CPaintManagerUI::SetFocus(CControlUI* pControl, bool bFocusWnd)
 {
+    // 注意此时的 “焦点” 指的是逻辑焦点，实际的焦点是在当前窗口上的
+
     // Paint manager window has focus?
     HWND hFocusWnd = ::GetFocus();
     if( bFocusWnd && hFocusWnd != m_hWndPaint && pControl != m_pFocus && !m_bNoActivate) ::SetFocus(m_hWndPaint);

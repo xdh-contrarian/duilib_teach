@@ -271,13 +271,14 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	::SetWindowPos(*this, NULL, rcClient.left, rcClient.top, rcClient.right - rcClient.left, \
 		rcClient.bottom - rcClient.top, SWP_FRAMECHANGED);
 
-	m_PaintManager.Init(m_hWnd);
-	m_PaintManager.AddPreMessageFilter(this);
+	m_PaintManager.Init(m_hWnd);				// 初始化 消息管理类
+	m_PaintManager.AddPreMessageFilter(this);	// WindowImplBase 实现 IMessageFilterUI 消息过滤接口，并把自身添加到 CPaintManagerUI 消息管理器中
 
-	CDialogBuilder builder;
-	CDuiString strResourcePath=m_PaintManager.GetResourcePath();
+	CDialogBuilder builder;						// 控件构造器
+	CDuiString strResourcePath=m_PaintManager.GetResourcePath(); // 获取当前资源路径
 	if (strResourcePath.IsEmpty())
 	{
+		// 如果为空，就从 exe 路径和GetSkinFolder路径拼接 进行查找
 		strResourcePath=m_PaintManager.GetInstancePath();
 		strResourcePath+=GetSkinFolder().GetData();
 	}
@@ -325,7 +326,10 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 		pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
 	}
 	else
+	{
+		// UILIB_FILE 走这里 
 		pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_PaintManager);
+	}
 	ASSERT(pRoot);
 	if (pRoot==NULL)
 	{
@@ -333,8 +337,8 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 		ExitProcess(1);
 		return 0;
 	}
-	m_PaintManager.AttachDialog(pRoot);
-	m_PaintManager.AddNotifier(this);
+	m_PaintManager.AttachDialog(pRoot);		// 关联 根节点
+	m_PaintManager.AddNotifier(this);		// 实现 INotifyUI ，订阅消息
 
 	InitWindow();
 	return 0;

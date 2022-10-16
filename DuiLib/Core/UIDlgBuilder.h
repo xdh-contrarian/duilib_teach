@@ -11,7 +11,7 @@ public:
     virtual CControlUI* CreateControl(LPCTSTR pstrClass) = 0;
 };
 
-
+// CDialogBuilder：控件构造器，主要用以解析xml配置文件并以此创建相应控件及相关属性
 class DUILIB_API CDialogBuilder
 {
 public:

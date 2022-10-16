@@ -83,17 +83,17 @@ namespace DuiLib
         CDuiString(const CDuiString& src);
         CDuiString(LPCTSTR lpsz, int nLen = -1);
         ~CDuiString();
-        CDuiString ToString();
+        CDuiString ToString();									// 获取字符串首地址
 
-        void Empty();
-        int GetLength() const;
-        bool IsEmpty() const;
-        TCHAR GetAt(int nIndex) const;
-        void Append(LPCTSTR pstr);
+        void Empty();											// 清空 字符串 
+        int GetLength() const;									// 获取 长度
+        bool IsEmpty() const;									// 是否为空串
+        TCHAR GetAt(int nIndex) const;							// 获取索引为nIndex的字符
+        void Append(LPCTSTR pstr);								// 追加字符串
         void Assign(LPCTSTR pstr, int nLength = -1);
-        LPCTSTR GetData() const;
+        LPCTSTR GetData() const;								// 获取字符串首地址
 
-        void SetAt(int nIndex, TCHAR ch);
+        void SetAt(int nIndex, TCHAR ch);						// 设置索引为nIndex的字符为ch
         operator LPCTSTR() const;
 
         TCHAR operator[] (int nIndex) const;
@@ -126,21 +126,21 @@ namespace DuiLib
         void MakeUpper();
         void MakeLower();
 
-        CDuiString Left(int nLength) const;
+        CDuiString Left(int nLength) const;						// 返回 前 nLength 个长度的字符串
         CDuiString Mid(int iPos, int nLength = -1) const;
         CDuiString Right(int nLength) const;
 
         int Find(TCHAR ch, int iPos = 0) const;
         int Find(LPCTSTR pstr, int iPos = 0) const;
-        int ReverseFind(TCHAR ch) const;
+        int ReverseFind(TCHAR ch) const;						// 反向查找字符串 返回字串所在位置 找不到返回 -1
         int Replace(LPCTSTR pstrFrom, LPCTSTR pstrTo);
 
         int __cdecl Format(LPCTSTR pstrFormat, ...);
         int __cdecl SmallFormat(LPCTSTR pstrFormat, ...);
 
     protected:
-        LPTSTR m_pstr;
-        TCHAR m_szBuffer[MAX_LOCAL_STRING_LEN + 1];
+        LPTSTR m_pstr;										// 字符串首地址
+        TCHAR m_szBuffer[MAX_LOCAL_STRING_LEN + 1];			// 字符串缓冲区大小+1
     };
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -202,28 +202,28 @@ namespace DuiLib
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
-
+	// 
     struct TITEM;
 	class DUILIB_API CDuiStringPtrMap
 	{
 	public:
-		CDuiStringPtrMap(int nSize = 83);
+		CDuiStringPtrMap(int nSize = 83);   // 默认大小为 83
 		~CDuiStringPtrMap();
 
-		void Resize(int nSize = 83);
+		void Resize(int nSize = 83);		// 重置大小
 		LPVOID Find(LPCTSTR key, bool optimize = true) const;
 		bool Insert(LPCTSTR key, LPVOID pData);
 		LPVOID Set(LPCTSTR key, LPVOID pData);
-		bool Remove(LPCTSTR key);
-		void RemoveAll();
-		int GetSize() const;
+		bool Remove(LPCTSTR key);	// 移除 key 
+		void RemoveAll();			// 移除所有 键值对 ，重新
+		int GetSize() const;		// 获取容量大小
 		LPCTSTR GetAt(int iIndex) const;
 		LPCTSTR operator[] (int nIndex) const;
 
 	protected:
-		TITEM** m_aT;
-		int m_nBuckets;
-		int m_nCount;
+		TITEM** m_aT;				// Duistring 指针 Key-Value对 的数组 
+		int m_nBuckets;				// 容量所占内存大小
+		int m_nCount;				// 容量
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////

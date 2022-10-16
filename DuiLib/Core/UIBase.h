@@ -24,8 +24,10 @@ namespace DuiLib {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
+// C Runtime Library(CRT)提供了_ASSERT、_ASSERTE两种形式的断言，位于<crtdbg.h>头文件中。
+// _ASSERT、_ASSERTE函数仅在_DEBUG宏定义的情况下有效，这也是vs的debug版本中预定义宏_DEBUG的作用。
 #ifndef ASSERT
-#define ASSERT(expr)  _ASSERTE(expr)
+#define ASSERT(expr)  _ASSERTE(expr) 
 #endif
 
 #ifdef _DEBUG
@@ -58,15 +60,16 @@ private:
 	CDuiStringPtrMap m_VirtualWndMap;
 };
 
+// 窗口基类
 class DUILIB_API CWindowWnd
 {
 public:
     CWindowWnd();
-
-    HWND GetHWND() const;
+    // 把一个成员函数声明为const可以保证这个成员函数不修改数据成员，但是，如果数据成员是指针，则const成员函数并不能保证不修改指针指向的对象，编译器不会把这种修改检测为错误
+    HWND GetHWND() const;           // 获取窗口句柄
     operator HWND() const;
 
-    bool RegisterWindowClass();
+    bool RegisterWindowClass();     // 注册窗口类
     bool RegisterSuperclass();
 
     HWND Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD dwExStyle, const RECT rc, HMENU hMenu = NULL);
@@ -74,15 +77,15 @@ public:
     HWND CreateDuiWindow(HWND hwndParent, LPCTSTR pstrWindowName,DWORD dwStyle =0, DWORD dwExStyle =0);
     HWND Subclass(HWND hWnd);
     void Unsubclass();
-    void ShowWindow(bool bShow = true, bool bTakeFocus = true);
-    UINT ShowModal();
+    void ShowWindow(bool bShow = true, bool bTakeFocus = true);  // 展示窗口
+    UINT ShowModal();   //  展示模态窗口
     void Close(UINT nRet = IDOK);
     void CenterWindow();	// 居中，支持扩展屏幕
-    void SetIcon(UINT nRes);
+    void SetIcon(UINT nRes);   // 设置任务栏图标
 
-    LRESULT SendMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);
-    LRESULT PostMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);
-    void ResizeClient(int cx = -1, int cy = -1);
+    LRESULT SendMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);   // 阻塞式发送消息
+    LRESULT PostMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);   // 
+    void ResizeClient(int cx = -1, int cy = -1);   // 重置客户区大小
 
 protected:
     virtual LPCTSTR GetWindowClassName() const = 0;

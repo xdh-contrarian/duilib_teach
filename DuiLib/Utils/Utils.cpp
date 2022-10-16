@@ -744,6 +744,7 @@ namespace DuiLib
 
 	int CDuiString::ReverseFind(TCHAR ch) const
 	{
+		// _tcsrchr 查找字符串中某个字符最后一次出现的位置
 		LPCTSTR p = _tcsrchr(m_pstr, ch);
 		if( p == NULL ) return -1;
 		return (int)(p - m_pstr);

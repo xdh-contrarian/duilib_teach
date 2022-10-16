@@ -85,13 +85,13 @@ typedef enum EVENTTYPE_UI
 
 typedef struct DUILIB_API tagTFontInfo
 {
-    HFONT hFont;
-    CDuiString sFontName;
-    int iSize;
-    bool bBold;
-    bool bUnderline;
-    bool bItalic;
-    TEXTMETRIC tm;
+    HFONT hFont;                    // 逻辑字体的句柄
+    CDuiString sFontName;           // 字体控件名字
+    int iSize;                      // 字号大小
+    bool bBold;                     // 是否粗体
+    bool bUnderline;                // 是否有下划线
+    bool bItalic;                   // 是否斜体
+    TEXTMETRIC tm;                  // 有关物理字体的基本信息
 } TFontInfo;
 
 typedef struct DUILIB_API tagTImageInfo
@@ -135,15 +135,15 @@ typedef struct DUILIB_API tagTPercentInfo
 
 typedef struct DUILIB_API tagTResInfo
 {
-	DWORD m_dwDefaultDisabledColor;
-	DWORD m_dwDefaultFontColor;
-	DWORD m_dwDefaultLinkFontColor;
-	DWORD m_dwDefaultLinkHoverFontColor;
-	DWORD m_dwDefaultSelectedBkColor;
-	TFontInfo m_DefaultFontInfo;
-	CDuiStringPtrMap m_CustomFonts;
-	CDuiStringPtrMap m_ImageHash;
-	CDuiStringPtrMap m_AttrHash;
+	DWORD m_dwDefaultDisabledColor;                     // 默认失效状态颜色
+	DWORD m_dwDefaultFontColor;                         //  默认字体颜色
+	DWORD m_dwDefaultLinkFontColor;                     // 默认超链接字体颜色
+	DWORD m_dwDefaultLinkHoverFontColor;                // 默认超链接鼠标悬停状态的字体颜色
+	DWORD m_dwDefaultSelectedBkColor;                   // 默认选中状态背景色
+	TFontInfo m_DefaultFontInfo;                        // 默认字体信息
+	CDuiStringPtrMap m_CustomFonts;                     // 自定义字体资源集合
+	CDuiStringPtrMap m_ImageHash;                       // 图片资源HashMap
+	CDuiStringPtrMap m_AttrHash;                        
 	CDuiStringPtrMap m_MultiLanguageHash;
 } TResInfo;
 
@@ -165,14 +165,14 @@ typedef struct DUILIB_API tagTEventUI
 class DUILIB_API INotifyUI
 {
 public:
-    virtual void Notify(TNotifyUI& msg) = 0;
+    virtual void Notify(TNotifyUI& msg) = 0;                    // 控件响应消息接口
 };
 
 // MessageFilter interface
 class DUILIB_API IMessageFilterUI
 {
 public:
-    virtual LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled) = 0;
+    virtual LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled) = 0;    // 消息过滤器接口
 };
 
 class DUILIB_API ITranslateAccelerator
@@ -195,15 +195,15 @@ public:
 
 public:
     void Init(HWND hWnd, LPCTSTR pstrName = NULL);
-	bool IsUpdateNeeded() const;
-    void NeedUpdate();
-	void Invalidate();
-    void Invalidate(RECT& rcItem);
+	bool IsUpdateNeeded() const;                                    // 是否需要更新界面
+    void NeedUpdate();                                              // 设置需要更新界面
+	void Invalidate();                                              // 刷新界面
+    void Invalidate(RECT& rcItem);                                  // 刷新某个区域，指定区域失效
 
 	LPCTSTR GetName() const;
     HDC GetPaintDC() const;
 	HBITMAP GetPaintOffscreenBitmap();
-    HWND GetPaintWindow() const;
+    HWND GetPaintWindow() const;                                    // 获取绘图的窗口句柄
     HWND GetTooltipWindow() const;
 	int GetTooltipWindowWidth() const;
 	void SetTooltipWindowWidth(int iWidth);
@@ -212,20 +212,20 @@ public:
 
     POINT GetMousePos() const;
     SIZE GetClientSize() const;
-    SIZE GetInitSize();
-    void SetInitSize(int cx, int cy);
-    RECT& GetSizeBox();
-    void SetSizeBox(RECT& rcSizeBox);
-    RECT& GetCaptionRect();
-    void SetCaptionRect(RECT& rcCaption);
-    SIZE GetRoundCorner() const;
-    void SetRoundCorner(int cx, int cy);
-    SIZE GetMinInfo() const;
-    void SetMinInfo(int cx, int cy);
-    SIZE GetMaxInfo() const;
-    void SetMaxInfo(int cx, int cy);
-    bool IsShowUpdateRect() const;
-    void SetShowUpdateRect(bool show);
+    SIZE GetInitSize();                                             // 获取初始窗口大小
+    void SetInitSize(int cx, int cy);                               // 设置初始窗口大小
+    RECT& GetSizeBox();                                             // 获取窗体的边框区域大小
+    void SetSizeBox(RECT& rcSizeBox);                               // 设置窗体的边框区域大小
+    RECT& GetCaptionRect();                                         // 获取标题栏位置
+    void SetCaptionRect(RECT& rcCaption);                           // 设置标题栏位置
+    SIZE GetRoundCorner() const;                                    // 获取窗体四角的圆角弧度
+    void SetRoundCorner(int cx, int cy);                            // 设置窗体四角的圆角弧度
+	SIZE GetMinInfo() const;                                        // 获取窗体可以调整到的最小 SIZE
+	void SetMinInfo(int cx, int cy);                                // 设置窗体可以调整到的最小 SIZE
+	SIZE GetMaxInfo() const;                                        // 获取窗体可以调整到的最大 SIZE
+	void SetMaxInfo(int cx, int cy);                                // 设置窗体可以调整到的最大 SIZE
+    bool IsShowUpdateRect() const;                                  // 是否显示更新区域
+    void SetShowUpdateRect(bool show);                              // 设置是否显示更新区域
     bool IsNoActivate();
     void SetNoActivate(bool bNoActivate);
 
@@ -241,18 +241,18 @@ public:
 	LPCTSTR GetLayeredImage();
 	void SetLayeredImage(LPCTSTR pstrImage);
 
-    static HINSTANCE GetInstance();
-    static CDuiString GetInstancePath();
+    static HINSTANCE GetInstance();                                                // 获取进程句柄
+    static CDuiString GetInstancePath();                                           // 获取exe路径
     static CDuiString GetCurrentPath();
     static HINSTANCE GetResourceDll();
-    static const CDuiString& GetResourcePath();
-    static const CDuiString& GetResourceZip();
+    static const CDuiString& GetResourcePath();                                    // 返回 资源的路径(以"\"结尾)
+    static const CDuiString& GetResourceZip();                                     // 返回 Zip资源的路径
     static bool IsCachedResourceZip();
     static HANDLE GetResourceZipHandle();
-    static void SetInstance(HINSTANCE hInst);
+    static void SetInstance(HINSTANCE hInst);                                       // 设置进程句柄
     static void SetCurrentPath(LPCTSTR pStrPath);
     static void SetResourceDll(HINSTANCE hInst);
-    static void SetResourcePath(LPCTSTR pStrPath);
+    static void SetResourcePath(LPCTSTR pStrPath);                                  // 设置资源路径
 	static void SetResourceZip(LPVOID pVoid, unsigned int len);
     static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false);
     static bool GetHSL(short* H, short* S, short* L);
@@ -301,7 +301,7 @@ public:
 	void ReloadImages();
 
     void AddDefaultAttributeList(LPCTSTR pStrControlName, LPCTSTR pStrControlAttrList, bool bShared = false);
-    LPCTSTR GetDefaultAttributeList(LPCTSTR pStrControlName) const;
+    LPCTSTR GetDefaultAttributeList(LPCTSTR pStrControlName) const;                    // 根据控件名称查询该类控件的默认配置
     bool RemoveDefaultAttributeList(LPCTSTR pStrControlName, bool bShared = false);
     void RemoveAllDefaultAttributeList(bool bShared = false);
 
@@ -311,7 +311,7 @@ public:
     void RemoveAllWindowCustomAttribute();
 
     CDuiString GetWindowAttribute(LPCTSTR pstrName);
-    void SetWindowAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+    void SetWindowAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);               // 设置窗口属性
     CDuiString GetWindowAttributeList(bool bIgnoreDefault = true);
     void SetWindowAttributeList(LPCTSTR pstrList);
     bool RemoveWindowAttribute(LPCTSTR pstrName);
@@ -324,9 +324,9 @@ public:
 	static void RemoveAllMultiLanguageString();
 	static void ProcessMultiLanguageTokens(CDuiString& pStrMultiLanguage);
 
-    bool AttachDialog(CControlUI* pControl);
-    bool InitControls(CControlUI* pControl, CControlUI* pParent = NULL);
-	bool RenameControl(CControlUI* pControl, LPCTSTR pstrName);
+    bool AttachDialog(CControlUI* pControl);                                    // 将控件设置为 根元素
+    bool InitControls(CControlUI* pControl, CControlUI* pParent = NULL);        // 初始化一个控件实例
+	bool RenameControl(CControlUI* pControl, LPCTSTR pstrName);                 // 重命名控件名字
     void ReapObjects(CControlUI* pControl);
 
     bool AddOptionGroup(LPCTSTR pStrGroupName, CControlUI* pControl);
@@ -335,7 +335,7 @@ public:
     void RemoveAllOptionGroups();
 
     CControlUI* GetFocus() const;
-    void SetFocus(CControlUI* pControl, bool bFocusWnd=true);
+    void SetFocus(CControlUI* pControl, bool bFocusWnd=true);                   // 设置当前焦点在当前控件上
     void SetFocusNeeded(CControlUI* pControl);
 
     bool SetNextTabControl(bool bForward = true);
@@ -352,13 +352,13 @@ public:
 	bool IsPainting();
 	void SetPainting(bool bIsPainting);
 
-    bool AddNotifier(INotifyUI* pControl);
+    bool AddNotifier(INotifyUI* pControl);                                     // 添加控件响应消息
     bool RemoveNotifier(INotifyUI* pControl);   
     void SendNotify(TNotifyUI& Msg, bool bAsync = false, bool bEnableRepeat = true);
     void SendNotify(CControlUI* pControl, LPCTSTR pstrMessage, WPARAM wParam = 0, LPARAM lParam = 0, bool bAsync = false, bool bEnableRepeat = true);
 
-    bool AddPreMessageFilter(IMessageFilterUI* pFilter);
-    bool RemovePreMessageFilter(IMessageFilterUI* pFilter);
+    bool AddPreMessageFilter(IMessageFilterUI* pFilter);                       // 添加消息过滤器
+    bool RemovePreMessageFilter(IMessageFilterUI* pFilter);                    // 移除消息过滤器
 
     bool AddMessageFilter(IMessageFilterUI* pFilter);
     bool RemoveMessageFilter(IMessageFilterUI* pFilter);
@@ -383,73 +383,73 @@ public:
 
     CControlUI* GetRoot() const;
     CControlUI* FindControl(POINT pt) const;
-    CControlUI* FindControl(LPCTSTR pstrName) const;
+    CControlUI* FindControl(LPCTSTR pstrName) const;                                // 通过控件名字 在控件hash表中查找控件
     CControlUI* FindSubControlByPoint(CControlUI* pParent, POINT pt) const;
     CControlUI* FindSubControlByName(CControlUI* pParent, LPCTSTR pstrName) const;
     CControlUI* FindSubControlByClass(CControlUI* pParent, LPCTSTR pstrClass, int iIndex = 0);
     CDuiPtrArray* FindSubControlsByClass(CControlUI* pParent, LPCTSTR pstrClass);
 
-    static void MessageLoop();
-    static bool TranslateMessage(const LPMSG pMsg);
+    static void MessageLoop();                                                          // 消息循环
+    static bool TranslateMessage(const LPMSG pMsg);                                     // 翻译消息
 	static void Term();
 
-    bool MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);
+    bool MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);        // 消息处理中转中心
     bool PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);
 	void UsedVirtualWnd(bool bUsed);
 
 private:
 	CDuiPtrArray* GetFoundControls();
-    static CControlUI* CALLBACK __FindControlFromNameHash(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlFromCount(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlFromPoint(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlFromTab(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlFromShortcut(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlFromName(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlFromClass(CControlUI* pThis, LPVOID pData);
-    static CControlUI* CALLBACK __FindControlsFromClass(CControlUI* pThis, LPVOID pData);
-	static CControlUI* CALLBACK __FindControlsFromUpdate(CControlUI* pThis, LPVOID pData);
+    static CControlUI* CALLBACK __FindControlFromNameHash(CControlUI* pThis, LPVOID pData);         // 将所有的控件添加到m_mNameHash哈希表中
+    static CControlUI* CALLBACK __FindControlFromCount(CControlUI* pThis, LPVOID pData);            // 计算控件数量
+    static CControlUI* CALLBACK __FindControlFromPoint(CControlUI* pThis, LPVOID pData);            // 根据点是否在区域中，查询控件
+    static CControlUI* CALLBACK __FindControlFromTab(CControlUI* pThis, LPVOID pData);              // 通过Tab信息查询控件
+    static CControlUI* CALLBACK __FindControlFromShortcut(CControlUI* pThis, LPVOID pData);         // 从快照中查询控件
+    static CControlUI* CALLBACK __FindControlFromName(CControlUI* pThis, LPVOID pData);             // 通过名称比较查询控件
+    static CControlUI* CALLBACK __FindControlFromClass(CControlUI* pThis, LPVOID pData);            
+    static CControlUI* CALLBACK __FindControlsFromClass(CControlUI* pThis, LPVOID pData);           
+	static CControlUI* CALLBACK __FindControlsFromUpdate(CControlUI* pThis, LPVOID pData);          // 查找需要更新的控件
 
 	static void AdjustSharedImagesHSL();
 	void AdjustImagesHSL();
 	void PostAsyncNotify();
 
 private:
-	CDuiString m_sName;
-    HWND m_hWndPaint;
-    HDC m_hDcPaint;
-    HDC m_hDcOffscreen;
-    HDC m_hDcBackground;
-    HBITMAP m_hbmpOffscreen;
-	COLORREF* m_pOffscreenBits;
-    HBITMAP m_hbmpBackground;
+	CDuiString m_sName;                                         // 
+    HWND m_hWndPaint;                                           // 进行Direct绘图操作的窗体句柄
+    HDC m_hDcPaint;                                             // 直接绘制到窗体的DC(为窗体的整个区域包括非客户区)
+    HDC m_hDcOffscreen;                                         // 内存缓冲区绘图DC
+    HDC m_hDcBackground;                                        // 背景绘制(支持AlphaBackground时使用)
+    HBITMAP m_hbmpOffscreen;                                    // m_hDcPaint的后台作图画布
+	COLORREF* m_pOffscreenBits;                                 
+    HBITMAP m_hbmpBackground;                                   // 背景图片bmp
 	COLORREF* m_pBackgroundBits;
-	int m_iTooltipWidth;
+	int m_iTooltipWidth;            
     int m_iLastTooltipWidth;
-	HWND m_hwndTooltip;
-	TOOLINFO m_ToolTip;
+	HWND m_hwndTooltip;                                         // 提示窗口句柄
+	TOOLINFO m_ToolTip;                                         // 提示消息
 	int m_iHoverTime;
     bool m_bNoActivate;
-    bool m_bShowUpdateRect;
+    bool m_bShowUpdateRect;                                     // 是否显示更新区域
     //
-    CControlUI* m_pRoot;
-    CControlUI* m_pFocus;
-    CControlUI* m_pEventHover;
-    CControlUI* m_pEventClick;
-    CControlUI* m_pEventKey;
+    CControlUI* m_pRoot;                                        // xml根节点解析成的对象，通常为各种Window
+    CControlUI* m_pFocus;                                       // 处于获得焦点状态的控件
+    CControlUI* m_pEventHover;                                  // 处于鼠标悬停状态的控件
+    CControlUI* m_pEventClick;                                  // 被鼠标点击的控件
+    CControlUI* m_pEventKey;                                    // 接收键盘输入的控件
     CControlUI* m_pLastToolTip;
     //
-    POINT m_ptLastMousePos;
-    SIZE m_szMinWindow;
-    SIZE m_szMaxWindow;
-    SIZE m_szInitWindowSize;
-    RECT m_rcSizeBox;
-    SIZE m_szRoundCorner;
-    RECT m_rcCaption;
-    UINT m_uTimerID;
-    bool m_bFirstLayout;
-    bool m_bUpdateNeeded;
-    bool m_bFocusNeeded;
-    bool m_bOffscreenPaint;
+    POINT m_ptLastMousePos;                                     // 鼠标最新的位置
+    SIZE m_szMinWindow;                                         // 窗体可以调整到的最小 SIZE
+    SIZE m_szMaxWindow;                                         // 窗体可以调整到的最大 SIZE
+    SIZE m_szInitWindowSize;                                    // 窗体初始化时的大小
+    RECT m_rcSizeBox;                                           // 窗体外边框区域的大小
+    SIZE m_szRoundCorner;                                       // 窗体四角的圆角弧度
+    RECT m_rcCaption;                                           // 窗体标题栏区域位置
+    UINT m_uTimerID;                                            // 当前定时器ID
+    bool m_bFirstLayout;                                        // 是否是首个布局
+    bool m_bUpdateNeeded;                                       // 是否需要更新界面
+    bool m_bFocusNeeded;                                        // 是否需要焦点
+    bool m_bOffscreenPaint;                                     // 是否需要开双缓存绘图
 
 	BYTE m_nOpacity;
 	bool m_bLayered;
@@ -458,46 +458,46 @@ private:
 	RECT m_rcLayeredUpdate;
 	TDrawInfo m_diLayered;
 
-    bool m_bMouseTracking;
-    bool m_bMouseCapture;
+    bool m_bMouseTracking;                                      // 是否需要支持鼠标追踪
+    bool m_bMouseCapture;                                       // 是否需要支持鼠标捕获
 	bool m_bIsPainting;
 	bool m_bUsedVirtualWnd;
 	bool m_bAsyncNotifyPosted;
 
-    //
-    CDuiPtrArray m_aNotifiers;
-    CDuiPtrArray m_aTimers;
-    CDuiPtrArray m_aPreMessageFilters;
-    CDuiPtrArray m_aMessageFilters;
-    CDuiPtrArray m_aPostPaintControls;
+    // 集合类信息
+    CDuiPtrArray m_aNotifiers;                                  // 能够接收通知的对象集合
+    CDuiPtrArray m_aTimers;                                     // 定时器集合
+    CDuiPtrArray m_aPreMessageFilters;                          // 预处理消息过滤器集合
+    CDuiPtrArray m_aMessageFilters;                             // 消息过滤器集合
+    CDuiPtrArray m_aPostPaintControls;                          // 发送绘制请求的控件集合
 	CDuiPtrArray m_aNativeWindow;
 	CDuiPtrArray m_aNativeWindowControl;
-    CDuiPtrArray m_aDelayedCleanup;
-    CDuiPtrArray m_aAsyncNotify;
+    CDuiPtrArray m_aDelayedCleanup;                             // 延迟清理的对象集合
+    CDuiPtrArray m_aAsyncNotify;                                // 异步通知消息集合
     CDuiPtrArray m_aFoundControls;
-    CDuiPtrArray m_aNeedMouseLeaveNeeded;                                   // 控件管理器，封装的指针数组
-    CDuiStringPtrMap m_mNameHash;
+    CDuiPtrArray m_aNeedMouseLeaveNeeded;                       // 控件管理器，封装的指针数组
+    CDuiStringPtrMap m_mNameHash;                               // 控件名称HashMap key - 控件名, value - 控件指针
 	CDuiStringPtrMap m_mWindowAttrHash;
-    CDuiStringPtrMap m_mOptionGroup;
+    CDuiStringPtrMap m_mOptionGroup;                            // 选项组Map
 
     //
 	bool m_bForceUseSharedRes;
-	TResInfo m_ResInfo;
+	TResInfo m_ResInfo;                                         // 资源信息
 
     //
-	static HINSTANCE m_hResourceInstance;
-	static CDuiString m_pStrResourcePath;
-	static CDuiString m_pStrResourceZip;
+	static HINSTANCE m_hResourceInstance;                       // 当前管理的资源DLL Instance实例
+	static CDuiString m_pStrResourcePath;                       // 当前使用的资源路径
+	static CDuiString m_pStrResourceZip;                        // 当前使用的资源压缩包文件全称
 	static HANDLE m_hResourceZip;
 
 	static bool m_bCachedResourceZip;
-	static TResInfo m_SharedResInfo;
-    static HINSTANCE m_hInstance;
+	static TResInfo m_SharedResInfo;                            // 共享资源信息
+    static HINSTANCE m_hInstance;                               // 当前管理的Instance实例
 	static bool m_bUseHSL;
-    static short m_H;
-    static short m_S;
-    static short m_L;
-    static CDuiPtrArray m_aPreMessages;
+	static short m_H;
+	static short m_S;
+	static short m_L;
+	static CDuiPtrArray m_aPreMessages;                         // 存储了当前进程中所有的CPaintManagerUI实例指针，如果有多个CPaintManagerUI实例， 也不会存在过滤问题，互不干扰，都能各自过滤。
     static CDuiPtrArray m_aPlugins;
 
 public:

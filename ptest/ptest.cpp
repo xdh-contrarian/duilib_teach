@@ -31,6 +31,8 @@ LRESULT PTEST::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	WindowImplBase::OnCreate(uMsg, wParam, lParam, bHandled);
 
 	bk = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(L"bk"));
+	SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 1920, 1080, SWP_FRAMECHANGED);
+	//UpdateLayeredWindow();
 	return S_OK;
 }
 
@@ -50,6 +52,14 @@ LRESULT PTEST::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//{
 	//	break;
 	//}
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps = { 0 };
+		::BeginPaint(m_hWnd, &ps);
+		::EndPaint(m_hWnd, &ps);
+		bHandled = TRUE;
+		break;
+	}
 	case WM_NCPAINT:
 	{
 		//MessageBox(m_hWnd, L"WM_NCPAINT", L"消息", MB_OK);

@@ -35,14 +35,14 @@ public:
 
 public:
     LPCTSTR GetClass() const;
-    LPVOID GetInterface(LPCTSTR pstrName);
+    LPVOID GetInterface(LPCTSTR pstrName);   //  重写 基类 CControlUI 的这个可函数  可以获取本控件的实例
 
     CControlUI* GetItemAt(int iIndex) const;
     int GetItemIndex(CControlUI* pControl) const;
     bool SetItemIndex(CControlUI* pControl, int iNewIndex);
     bool SetMultiItemIndex(CControlUI* pStartControl, int iCount, int iNewStartIndex);
     int GetCount() const;
-    bool Add(CControlUI* pControl);
+    bool Add(CControlUI* pControl);                             // 添加并注册一个控件
     bool AddAt(CControlUI* pControl, int iIndex);
     bool Remove(CControlUI* pControl, bool bDoNotDestroy=false);
     bool RemoveAt(int iIndex, bool bDoNotDestroy=false);
@@ -115,7 +115,7 @@ protected:
     virtual void ProcessScrollBar(RECT rc, int cxRequired, int cyRequired);
 
 protected:
-    CDuiPtrArray m_items;
+    CDuiPtrArray m_items;   //  本容器内包含的控件实例列表
     RECT m_rcInset;
     int m_iChildPadding;
 	UINT m_iChildAlign;

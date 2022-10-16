@@ -44,7 +44,7 @@ public:
 
     virtual bool Activate();                                        // 是否激活
     virtual CPaintManagerUI* GetManager() const;                    // 获取界面显示消息管理类实例
-    virtual void SetManager(CPaintManagerUI* pManager, CControlUI* pParent, bool bInit = true);
+    virtual void SetManager(CPaintManagerUI* pManager, CControlUI* pParent, bool bInit = true);     // 关联消息管理类，与父组件
     virtual CControlUI* GetParent() const;                          // 获取父控件实例
     virtual CControlUI* GetCover() const;
     virtual void SetCover(CControlUI *pControl);
@@ -199,7 +199,7 @@ public:
 protected:
     CPaintManagerUI* m_pManager;                            // 界面显示、消息管理类
     CControlUI* m_pParent;                                  // 父控件
-    CControlUI* m_pCover;
+    CControlUI* m_pCover;                                   // 
 	CDuiString m_sVirtualWnd;                               // 虚窗口
     CDuiString m_sName;                                     // 控件名字
     bool m_bUpdateNeeded;                                   
@@ -211,7 +211,7 @@ protected:
     SIZE m_cxyFixed;
     SIZE m_cxyMin;
     SIZE m_cxyMax;
-    bool m_bVisible;
+    bool m_bVisible;                                        // 是否可见
     bool m_bInternVisible;
     bool m_bEnabled;
     bool m_bMouseEnabled;
