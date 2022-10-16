@@ -201,7 +201,7 @@ public:
     void Invalidate(RECT& rcItem);                                  // 刷新某个区域，指定区域失效
 
 	LPCTSTR GetName() const;
-    HDC GetPaintDC() const;
+    HDC GetPaintDC() const;                                         // 获取 直接绘制到窗体的DC
 	HBITMAP GetPaintOffscreenBitmap();
     HWND GetPaintWindow() const;                                    // 获取绘图的窗口句柄
     HWND GetTooltipWindow() const;
@@ -253,15 +253,15 @@ public:
     static void SetCurrentPath(LPCTSTR pStrPath);
     static void SetResourceDll(HINSTANCE hInst);
     static void SetResourcePath(LPCTSTR pStrPath);                                  // 设置资源路径
-	static void SetResourceZip(LPVOID pVoid, unsigned int len);
-    static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false);
+	static void SetResourceZip(LPVOID pVoid, unsigned int len);                     // 设置资源压缩包路径
+    static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false);   // 设置资源压缩包路径
     static bool GetHSL(short* H, short* S, short* L);
     static void SetHSL(bool bUseHSL, short H, short S, short L); // H:0~360, S:0~200, L:0~200 
     static void ReloadSkin();
 	static CPaintManagerUI* GetPaintManager(LPCTSTR pstrName);
 	static CDuiPtrArray* GetPaintManagers();
     static bool LoadPlugin(LPCTSTR pstrModuleName);
-    static CDuiPtrArray* GetPlugins();
+    static CDuiPtrArray* GetPlugins();                                              // 获取 插件 数组
 
 	bool IsForceUseSharedRes() const;
 	void SetForceUseSharedRes(bool bForce);
@@ -277,30 +277,30 @@ public:
     DWORD GetDefaultSelectedBkColor() const;
     void SetDefaultSelectedBkColor(DWORD dwColor, bool bShared = false);
 
-    TFontInfo* GetDefaultFontInfo();
-    void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+    TFontInfo* GetDefaultFontInfo();                                                                                            // 获取默认使用的字体信息
+    void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);      // 设置默认使用的字体信息
     DWORD GetCustomFontCount(bool bShared = false) const;
-    HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
-    HFONT GetFont(int id);
+    HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);    // 添加字体
+    HFONT GetFont(int id);                                                                                                      // 通过字体 id 获取字体句柄
     HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
 	int GetFontIndex(HFONT hFont, bool bShared = false);
 	int GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
     void RemoveFont(HFONT hFont, bool bShared = false);
     void RemoveFont(int id, bool bShared = false);
     void RemoveAllFonts(bool bShared = false);
-    TFontInfo* GetFontInfo(int id);
-    TFontInfo* GetFontInfo(HFONT hFont);
+    TFontInfo* GetFontInfo(int id);                                                                                             // 通过字体id 获取字体信息
+    TFontInfo* GetFontInfo(HFONT hFont);                                                                                        // 通过字体句柄 获取字体信息
 
-    const TImageInfo* GetImage(LPCTSTR bitmap);
-    const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false);
-    const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bShared = false);
+    const TImageInfo* GetImage(LPCTSTR bitmap);                                                                                 // 根据图像路径查找图像信息
+    const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false);                    // 根据名称,类型，遮罩色 查询图像信息
+    const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bShared = false);// 添加图像
     const TImageInfo* AddImage(LPCTSTR bitmap, HBITMAP hBitmap, int iWidth, int iHeight, bool bAlpha, bool bShared = false);
     void RemoveImage(LPCTSTR bitmap, bool bShared = false);
     void RemoveAllImages(bool bShared = false);
 	static void ReloadSharedImages();
 	void ReloadImages();
 
-    void AddDefaultAttributeList(LPCTSTR pStrControlName, LPCTSTR pStrControlAttrList, bool bShared = false);
+    void AddDefaultAttributeList(LPCTSTR pStrControlName, LPCTSTR pStrControlAttrList, bool bShared = false);   // 添加控件默认配置
     LPCTSTR GetDefaultAttributeList(LPCTSTR pStrControlName) const;                    // 根据控件名称查询该类控件的默认配置
     bool RemoveDefaultAttributeList(LPCTSTR pStrControlName, bool bShared = false);
     void RemoveAllDefaultAttributeList(bool bShared = false);
@@ -329,16 +329,16 @@ public:
 	bool RenameControl(CControlUI* pControl, LPCTSTR pstrName);                 // 重命名控件名字
     void ReapObjects(CControlUI* pControl);
 
-    bool AddOptionGroup(LPCTSTR pStrGroupName, CControlUI* pControl);
-    CDuiPtrArray* GetOptionGroup(LPCTSTR pStrGroupName);
+    bool AddOptionGroup(LPCTSTR pStrGroupName, CControlUI* pControl);           // 添加控件到指定的选项组
+    CDuiPtrArray* GetOptionGroup(LPCTSTR pStrGroupName);                        // 通过 选项组 的名字查找选项组
     void RemoveOptionGroup(LPCTSTR pStrGroupName, CControlUI* pControl);
     void RemoveAllOptionGroups();
 
-    CControlUI* GetFocus() const;
+    CControlUI* GetFocus() const;                                               // 获取 当前具有焦点的控件
     void SetFocus(CControlUI* pControl, bool bFocusWnd=true);                   // 设置当前焦点在当前控件上
     void SetFocusNeeded(CControlUI* pControl);
 
-    bool SetNextTabControl(bool bForward = true);
+    bool SetNextTabControl(bool bForward = true);                               // 设置下一个获得Tab键会获得焦点的控件，Tab是否继续往下走
 
     bool SetTimer(CControlUI* pControl, UINT nTimerID, UINT uElapse);
     bool KillTimer(CControlUI* pControl, UINT nTimerID);
@@ -354,8 +354,8 @@ public:
 
     bool AddNotifier(INotifyUI* pControl);                                     // 添加控件响应消息
     bool RemoveNotifier(INotifyUI* pControl);   
-    void SendNotify(TNotifyUI& Msg, bool bAsync = false, bool bEnableRepeat = true);
-    void SendNotify(CControlUI* pControl, LPCTSTR pstrMessage, WPARAM wParam = 0, LPARAM lParam = 0, bool bAsync = false, bool bEnableRepeat = true);
+    void SendNotify(TNotifyUI& Msg, bool bAsync = false, bool bEnableRepeat = true); // 发送同步/异步通知
+    void SendNotify(CControlUI* pControl, LPCTSTR pstrMessage, WPARAM wParam = 0, LPARAM lParam = 0, bool bAsync = false, bool bEnableRepeat = true); // 构建同步或异步通知并发送
 
     bool AddPreMessageFilter(IMessageFilterUI* pFilter);                       // 添加消息过滤器
     bool RemovePreMessageFilter(IMessageFilterUI* pFilter);                    // 移除消息过滤器
@@ -394,7 +394,7 @@ public:
 	static void Term();
 
     bool MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);        // 消息处理中转中心
-    bool PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);
+    bool PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);     // 预先处理消息器
 	void UsedVirtualWnd(bool bUsed);
 
 private:
@@ -460,7 +460,7 @@ private:
 
     bool m_bMouseTracking;                                      // 是否需要支持鼠标追踪
     bool m_bMouseCapture;                                       // 是否需要支持鼠标捕获
-	bool m_bIsPainting;
+	bool m_bIsPainting;                                         // 
 	bool m_bUsedVirtualWnd;
 	bool m_bAsyncNotifyPosted;
 
@@ -490,7 +490,7 @@ private:
 	static CDuiString m_pStrResourceZip;                        // 当前使用的资源压缩包文件全称
 	static HANDLE m_hResourceZip;
 
-	static bool m_bCachedResourceZip;
+	static bool m_bCachedResourceZip;                           // 
 	static TResInfo m_SharedResInfo;                            // 共享资源信息
     static HINSTANCE m_hInstance;                               // 当前管理的Instance实例
 	static bool m_bUseHSL;
@@ -498,10 +498,10 @@ private:
 	static short m_S;
 	static short m_L;
 	static CDuiPtrArray m_aPreMessages;                         // 存储了当前进程中所有的CPaintManagerUI实例指针，如果有多个CPaintManagerUI实例， 也不会存在过滤问题，互不干扰，都能各自过滤。
-    static CDuiPtrArray m_aPlugins;
+    static CDuiPtrArray m_aPlugins;                             // 
 
 public:
-	CDuiPtrArray m_aTranslateAccelerator;
+	CDuiPtrArray m_aTranslateAccelerator;                       // 
 };
 
 } // namespace DuiLib

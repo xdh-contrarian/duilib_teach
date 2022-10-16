@@ -2140,6 +2140,7 @@ bool CPaintManagerUI::RemoveMouseLeaveNeeded(CControlUI* pControl)
 
 void CPaintManagerUI::SendNotify(CControlUI* pControl, LPCTSTR pstrMessage, WPARAM wParam /*= 0*/, LPARAM lParam /*= 0*/, bool bAsync /*= false*/, bool bEnableRepeat /*= true*/)
 {
+    // 发送消息，注意这个 Msg 的生命周期，是局部变量，函数执行完就销毁。
     TNotifyUI Msg;
     Msg.pSender = pControl;
     Msg.sType = pstrMessage;
@@ -2710,8 +2711,10 @@ const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD 
 
     TImageInfo* data = NULL;
     if( type != NULL ) {
+        // isdigit 检查字符是否为十进制数字
         if( isdigit(*bitmap) ) {
             LPTSTR pstr = NULL;
+            // _tcstol 将字符串转换为long整数值
             int iIndex = _tcstol(bitmap, &pstr, 10);
             data = CRenderEngine::LoadImage(iIndex, type, mask);
         }
@@ -3561,6 +3564,7 @@ bool CPaintManagerUI::TranslateMessage(const LPMSG pMsg)
 			CPaintManagerUI* pT = static_cast<CPaintManagerUI*>(m_aPreMessages[i]);
 			if(pMsg->hwnd == pT->GetPaintWindow())
 			{
+                // TranslateAccelerator 处理菜单命令的加速键。
 				if (pT->TranslateAccelerator(pMsg))
 					return true;
 
