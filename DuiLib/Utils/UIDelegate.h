@@ -79,7 +79,7 @@ inline CDelegateStatic MakeDelegate(bool (*pFn)(void*))
 
 class DUILIB_API CEventSource
 {
-    typedef bool (*FnType)(void*);
+    typedef bool (*FnType)(void*);            // 定义一个 FnType 类型的函数指针 接收任意指针，返回 bool 类型
 public:
     ~CEventSource();
     operator bool();
@@ -90,7 +90,7 @@ public:
     bool operator() (void* param);
 
 protected:
-    CDuiPtrArray m_aDelegates;
+    CDuiPtrArray m_aDelegates;                // 事件代理指针数组
 };
 
 } // namespace DuiLib

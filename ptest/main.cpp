@@ -4,6 +4,7 @@
 
 #include "..\DuiLib\UIlib.h"
 #include "ptest.h"
+#include <string>
 using namespace DuiLib;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
@@ -14,13 +15,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	PTEST* test1 = new PTEST();
 	if (test1 == NULL) return 0;
-	test1->Create(NULL, _T("Ptest"), UI_WNDSTYLE_DIALOG, WS_EX_LAYERED | WS_EX_TOPMOST , 0,0,0,0);
+	test1->Create(NULL, _T("Ptest"), WS_POPUP,NULL , 0,0,0,0);
 	//创建窗口，包括各种窗口属性，和扩展属性
 	// 
 	// 广播消息
-	//static UINT showMyappMsg = RegisterWindowMessage(L"MYAPP_SHOW");
-	//DWORD dwRecipients = BSM_APPLICATIONS;
-	//BroadcastSystemMessage(BSF_POSTMESSAGE, &dwRecipients, showMyappMsg, NULL,NULL);
+
+	//BroadcastSystemMessage(BSF_POSTMESSAGE, &dwRecipients, showMyappMsg, 111 ,(LPARAM) msgdata);
+	//BroadcastSystemMessage(BSF_POSTMESSAGE, &dwRecipients, showMyappMsg, 111 ,(LPARAM) msgdata);
+	//BroadcastSystemMessage(BSF_POSTMESSAGE, &dwRecipients, showMyappMsg, 111 ,(LPARAM) msgdata);
 
 	// PostMessageA
 	//static UINT showMyappMsg = RegisterWindowMessage(L"MYAPP_SHOW");
@@ -30,6 +32,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 
 	CPaintManagerUI::MessageLoop();//开启duilib的消息循环，通用做法，Windows是基于消息机制的操作系统
-
+	
 	return 0;
 }

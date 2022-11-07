@@ -110,6 +110,7 @@ namespace DuiLib
 
 	bool CLabelUI::IsMultiLine()
 	{
+		// DT_SINGLELINE 仅在单行上显示文本
 		return (m_uTextStyle & DT_SINGLELINE) == 0;
 	}
 
@@ -117,6 +118,7 @@ namespace DuiLib
 	{
 		if (bMultiLine)	{
             m_uTextStyle  &= ~DT_SINGLELINE;
+			// DT_WORDBREAK 如果单词超出lpRect参数指定的矩形边缘，则单词之间会自动换行。回车换行序列也会换行
             m_uTextStyle |= DT_WORDBREAK;
         }
 		else m_uTextStyle |= DT_SINGLELINE;

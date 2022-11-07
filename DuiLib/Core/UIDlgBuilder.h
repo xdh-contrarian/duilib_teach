@@ -29,7 +29,7 @@ private:
     CControlUI* _Parse(CMarkupNode* parent, CControlUI* pParent = NULL, CPaintManagerUI* pManager = NULL);
 
     CMarkup m_xml;
-    IDialogBuilderCallback* m_pCallback;
+    IDialogBuilderCallback* m_pCallback;            // 外部回调
     LPCTSTR m_pstrtype;
 };
 

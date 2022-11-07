@@ -14,6 +14,8 @@ using namespace DuiLib;
 
 //using namespace std;
 
+
+
 #define WM_ADDLISTITEM WM_USER + 50
 
 
@@ -146,5 +148,4 @@ private:
     CButtonUI* m_pRestoreBtn;
     CButtonUI* m_pMinBtn;
     CButtonUI* m_pSearch;
-
 };

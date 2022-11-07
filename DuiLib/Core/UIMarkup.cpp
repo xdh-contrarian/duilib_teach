@@ -267,6 +267,7 @@ bool CMarkup::LoadFromMem(BYTE* pByte, DWORD dwSize, int encoding)
         {
             pByte += 3; dwSize -= 3;
         }
+        // MultiByteToWideChar windows api 将字符串映射到 UTF-16（宽字符）字符串
         DWORD nWide = ::MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pByte, dwSize, NULL, 0 );
 
         m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1)*sizeof(TCHAR)));
@@ -478,8 +479,16 @@ bool CMarkup::_Parse(LPTSTR& pstrText, ULONG iParent)
         if( *pstrText == _T('!') || *pstrText == _T('?') ) {
             TCHAR ch = *pstrText;
             if( *pstrText == _T('!') ) ch = _T('-');
-            while( *pstrText != _T('\0') && !(*pstrText == ch && *(pstrText + 1) == _T('>')) ) pstrText = ::CharNext(pstrText);
-            if( *pstrText != _T('\0') ) pstrText += 2;
+
+            while (*pstrText != _T('\0') && !(*pstrText == ch && *(pstrText + 1) == _T('>')))
+            {
+                // windows api CharNext 检索指向字符串中下一个字符的指针
+                pstrText = ::CharNext(pstrText);
+            }
+            if (*pstrText != _T('\0'))
+            {
+                pstrText += 2;
+            }
             _SkipWhitespace(pstrText);
             continue;
         }
@@ -551,7 +560,7 @@ CMarkup::XMLELEMENT* CMarkup::_ReserveElement()
 
 void CMarkup::_SkipWhitespace(LPCTSTR& pstr) const
 {
-    while( *pstr > _T('\0') && *pstr <= _T(' ') ) pstr = ::CharNext(pstr);
+	while (*pstr > _T('\0') && *pstr <= _T(' ')) pstr = ::CharNext(pstr);
 }
 
 void CMarkup::_SkipWhitespace(LPTSTR& pstr) const
@@ -567,8 +576,8 @@ void CMarkup::_SkipIdentifier(LPCTSTR& pstr) const
 
 void CMarkup::_SkipIdentifier(LPTSTR& pstr) const
 {
-    // 属性只能用英文，所以这样处理没有问题
-    while( *pstr != _T('\0') && (*pstr == _T('_') || *pstr == _T(':') || _istalnum(*pstr)) ) pstr = ::CharNext(pstr);
+	// 属性只能用英文，所以这样处理没有问题
+	while (*pstr != _T('\0') && (*pstr == _T('_') || *pstr == _T(':') || _istalnum(*pstr))) pstr = ::CharNext(pstr);
 }
 
 bool CMarkup::_ParseAttributes(LPTSTR& pstrText)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window caption="0,0,0,30" roundcorner="5,5,5,5" sizebox="4,4,4,4" mininfo="340,100" >  
     <VerticalLayout name="bk" bkcolor="#FF000000" >
-        <Button name="changeBkColor" />
+        <Button name="changeBkColor" width="320" height="380" />
     </VerticalLayout>
 </Window>

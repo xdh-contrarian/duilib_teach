@@ -42,4 +42,6 @@ public:
 private:
     CVerticalLayoutUI* bk;
     bool               m_bBkColor;
+
+    UINT       showMyappMsg;
 };

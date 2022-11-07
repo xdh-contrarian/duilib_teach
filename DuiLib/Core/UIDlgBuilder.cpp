@@ -384,6 +384,7 @@ CControlUI* CDialogBuilder::_Parse(CMarkupNode* pRoot, CControlUI* pParent, CPai
             _Parse(&node, pControl, pManager);
         }
         TCHAR szValue[256] = { 0 };
+        // lengthof windows api 返回变量中数据对象的数量
         int cchLen = lengthof(szValue) - 1;
         // Attach to parent
         // 因为某些属性和父窗口相关，比如selected，必须先Add到父窗口

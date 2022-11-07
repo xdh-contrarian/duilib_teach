@@ -135,14 +135,14 @@ public:
     virtual bool IsVisible() const;                     
     virtual void SetVisible(bool bVisible = true);
     virtual void SetInternVisible(bool bVisible = true); // 仅供内部调用，有些UI拥有窗口句柄，需要重写此函数
-    virtual bool IsEnabled() const;
-    virtual void SetEnabled(bool bEnable = true);
-    virtual bool IsMouseEnabled() const;
-    virtual void SetMouseEnabled(bool bEnable = true);
-    virtual bool IsKeyboardEnabled() const;
+    virtual bool IsEnabled() const;                      // 是否可以响应用户操作
+    virtual void SetEnabled(bool bEnable = true);        // 设置是否响应用户操作
+    virtual bool IsMouseEnabled() const;                 // 是否可以响应鼠标操作
+    virtual void SetMouseEnabled(bool bEnable = true);   // 设置是否响应鼠标操作
+    virtual bool IsKeyboardEnabled() const;              
     virtual void SetKeyboardEnabled(bool bEnable = true);
     virtual bool IsFocused() const;
-    virtual void SetFocus();
+    virtual void SetFocus();                             // 设置焦点
     virtual bool IsFloat() const;
     virtual void SetFloat(bool bFloat = true);
 
@@ -163,7 +163,7 @@ public:
     virtual void Init();
     virtual void DoInit();
 
-    virtual void Event(TEventUI& event);
+    virtual void Event(TEventUI& event);                                            // 控件相应事件
     virtual void DoEvent(TEventUI& event);
 
     virtual CDuiString GetAttribute(LPCTSTR pstrName);
@@ -202,7 +202,7 @@ protected:
     CControlUI* m_pCover;                                   // 
 	CDuiString m_sVirtualWnd;                               // 虚窗口
     CDuiString m_sName;                                     // 控件名字
-    bool m_bUpdateNeeded;                                   
+    bool m_bUpdateNeeded;                                   // 是否需要更新            
     bool m_bMenuUsed;
 	bool m_bAsyncNotify;
     RECT m_rcItem;                                          // 控件位置
@@ -213,10 +213,10 @@ protected:
     SIZE m_cxyMax;
     bool m_bVisible;                                        // 是否可见
     bool m_bInternVisible;
-    bool m_bEnabled;
-    bool m_bMouseEnabled;
+    bool m_bEnabled;                                        // 是否可以响应用户操作
+    bool m_bMouseEnabled;                                   // 是否可以响应鼠标操作
 	bool m_bKeyboardEnabled ;
-    bool m_bFocused;
+    bool m_bFocused;                                        // 是否具有焦点
     bool m_bFloat;                                          // 是否是相对布局
 	TPercentInfo m_piFloatPercent;
     bool m_bSetPos;                                         // 防止SetPos循环调用

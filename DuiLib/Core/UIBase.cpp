@@ -389,6 +389,7 @@ bool CWindowWnd::RegisterSuperclass()
     // window so we can subclass it later on...
     WNDCLASSEX wc = { 0 };
     wc.cbSize = sizeof(WNDCLASSEX);
+    // GetClassInfoEx windows api 检索有关窗口类的信息
     if( !::GetClassInfoEx(NULL, GetSuperClassName(), &wc) ) {
         if( !::GetClassInfoEx(CPaintManagerUI::GetInstance(), GetSuperClassName(), &wc) ) {
             ASSERT(!"Unable to locate window class");

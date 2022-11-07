@@ -12,7 +12,7 @@
 
 
 using namespace DuiLib;
-
+static UINT showMyappMsg = RegisterWindowMessage(L"MYAPP_SHOW");
 #define TIMER_ID_TEST 100
 #define TIMER_TIME_TEST 1000
 
@@ -33,6 +33,7 @@ std::vector<std::string> desc;
 */
 void ListMainForm::Init()
 {
+
 	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
 	//static_cast 强制类型转换，_T 可以搜索文档16.2小节
 
@@ -357,8 +358,6 @@ LRESULT  ListMainForm::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 	return 0;
 }
 
-
-
 /***
 可以使用内存诊断工具（调试，窗口，显示诊断工具）清晰的看到内存只增不减的情形
 */
@@ -492,7 +491,6 @@ LRESULT  ListMainForm::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
 	}
 	return lRes;
 }
-
 /***
 * 处理来着windows系统的各种消息，WM= windows  message
 */
@@ -500,6 +498,14 @@ LRESULT  ListMainForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT lRes = 0;
 	BOOL bHandled = TRUE;
+	if (uMsg == showMyappMsg)
+	{
+		string* sss = (string*)lParam;
+		string data = "";
+		if (sss) data = *sss;
+		MessageBoxA(NULL, data.data(), data.data(), MB_OK);
+	}
+
 	switch (uMsg) {
 	case WM_ADDLISTITEM:   lRes = OnAddListItem(uMsg, wParam, lParam, bHandled); break;
 	case WM_CREATE:        lRes = OnCreate(uMsg, wParam, lParam, bHandled); break;

@@ -5,6 +5,11 @@ void PTEST::OnClick(TNotifyUI& msg)
 	CDuiString sCtrlName = msg.pSender->GetName();
 	if (sCtrlName == _T("changeBkColor"))
 	{
+		showMyappMsg = RegisterWindowMessage(L"MYAPP_SHOW");
+		//MessageBox(m_hWnd, L"WM_NCPAINT", L"消息", MB_OK);
+		DWORD dwRecipients = BSM_APPLICATIONS;
+		string* msgdata = new string("qwert");
+		BroadcastSystemMessage(BSF_POSTMESSAGE, &dwRecipients, showMyappMsg, NULL, NULL);
 		//if (sindex++ > 3)
 		//{
 		//	Close();
@@ -30,9 +35,11 @@ LRESULT PTEST::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	WindowImplBase::OnCreate(uMsg, wParam, lParam, bHandled);
 
+	ShowWindow(true);
 	bk = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(L"bk"));
-	SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 1920, 1080, SWP_FRAMECHANGED);
+	//SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 320,380, SWP_FRAMECHANGED);
 	//UpdateLayeredWindow();
+	MoveWindow(m_hWnd, 1920, 0, 50, 50, true);
 	return S_OK;
 }
 
@@ -52,14 +59,14 @@ LRESULT PTEST::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//{
 	//	break;
 	//}
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps = { 0 };
-		::BeginPaint(m_hWnd, &ps);
-		::EndPaint(m_hWnd, &ps);
-		bHandled = TRUE;
-		break;
-	}
+	//case WM_PAINT:
+	//{
+	//	PAINTSTRUCT ps = { 0 };
+	//	::BeginPaint(m_hWnd, &ps);
+	//	::EndPaint(m_hWnd, &ps);
+	//	bHandled = TRUE;
+	//	break;
+	//}
 	case WM_NCPAINT:
 	{
 		//MessageBox(m_hWnd, L"WM_NCPAINT", L"消息", MB_OK);

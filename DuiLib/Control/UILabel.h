@@ -22,33 +22,33 @@ namespace DuiLib
 		CLabelUI();
 		~CLabelUI();
 
-		LPCTSTR GetClass() const;
-		LPVOID GetInterface(LPCTSTR pstrName);
+		LPCTSTR GetClass() const;						// 获取控件名称
+		LPVOID GetInterface(LPCTSTR pstrName);			// 根据控件名称获取控件指针
 
-        void SetFixedWidth(int cx);
-        void SetFixedHeight(int cy);
-		void SetText(LPCTSTR pstrText);
+        void SetFixedWidth(int cx);						// 设置预设宽度
+        void SetFixedHeight(int cy);					// 设置预设高度
+		void SetText(LPCTSTR pstrText);					// 设置字体
 
-		void SetTextStyle(UINT uStyle);
-		UINT GetTextStyle() const;
-		bool IsMultiLine();
-		void SetMultiLine(bool bMultiLine = true);
-		void SetTextColor(DWORD dwTextColor);
-		DWORD GetTextColor() const;
-		void SetDisabledTextColor(DWORD dwTextColor);
-		DWORD GetDisabledTextColor() const;
-		void SetFont(int index);
-		int GetFont() const;
-		RECT GetTextPadding() const;
-		void SetTextPadding(RECT rc);
-		bool IsShowHtml();
-		void SetShowHtml(bool bShowHtml = true);
+		void SetTextStyle(UINT uStyle);					// 设置字体样式
+		UINT GetTextStyle() const;						// 获取字体样式
+		bool IsMultiLine();								// 是否多行text
+		void SetMultiLine(bool bMultiLine = true);		// 设置多行
+		void SetTextColor(DWORD dwTextColor);			// 设置字体颜色
+		DWORD GetTextColor() const;						// 获取字体颜色
+		void SetDisabledTextColor(DWORD dwTextColor);	// 设置失效状态字体颜色
+		DWORD GetDisabledTextColor() const;				// 获取失效状态字体颜色
+		void SetFont(int index);						// 设置 字体
+		int GetFont() const;							// 获取 字体 id
+		RECT GetTextPadding() const;					// 获取 字体 padding
+		void SetTextPadding(RECT rc);					// 设置 字体 padding
+		bool IsShowHtml();								// 是否展示 html
+		void SetShowHtml(bool bShowHtml = true);		// 设置 是 html
 
 		SIZE EstimateSize(SIZE szAvailable);
-		void DoEvent(TEventUI& event);
-		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+		void DoEvent(TEventUI& event);								// 执行事件
+		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);		// 设置 属性
 
-		void PaintText(HDC hDC);
+		void PaintText(HDC hDC);									// 绘制字体
 
 #ifdef _USE_GDIPLUS
 		void		SetEnabledEffect(bool _EnabledEffect);
@@ -61,8 +61,8 @@ namespace DuiLib
 		int			GetGradientLength();
 		void		SetShadowOffset(int _offset,int _angle);
 		RectF		GetShadowOffset();
-		void		SetTextColor1(DWORD _TextColor1);
-		DWORD		GetTextColor1();
+		void		SetTextColor1(DWORD _TextColor1);				// 设置字体颜色
+		DWORD		GetTextColor1();								// 获取字体颜色
 		void		SetTextShadowColorA(DWORD _TextShadowColorA);
 		DWORD		GetTextShadowColorA();
 		void		SetTextShadowColorB(DWORD _TextShadowColorB);
@@ -78,13 +78,13 @@ namespace DuiLib
 #endif
 	
 	protected:
-		LPWSTR  m_pWideText;
-		DWORD	m_dwTextColor;
-		DWORD	m_dwDisabledTextColor;
-		int		m_iFont;
-		UINT	m_uTextStyle;
-		RECT	m_rcTextPadding;
-		bool	m_bShowHtml;
+		LPWSTR  m_pWideText;				// 字体宽字节格式
+		DWORD	m_dwTextColor;				// 字体颜色
+		DWORD	m_dwDisabledTextColor;		// 失效状态字体颜色
+		int		m_iFont;					// 字体 id
+		UINT	m_uTextStyle;				// 字体 样式
+		RECT	m_rcTextPadding;			// 字体 填充
+		bool	m_bShowHtml;				// 是否展示 html
         SIZE    m_szAvailableLast;
         SIZE    m_cxyFixedLast;
         bool    m_bNeedEstimateSize;

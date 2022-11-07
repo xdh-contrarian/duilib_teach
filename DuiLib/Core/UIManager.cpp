@@ -72,6 +72,7 @@ void tagTDrawInfo::Clear()
 
 /////////////////////////////////////////////////////////////////////////////////////
 typedef BOOL (__stdcall *PFUNCUPDATELAYEREDWINDOW)(HWND, HDC, POINT*, SIZE*, HDC, POINT*, COLORREF, BLENDFUNCTION*, DWORD);
+// 全局的函数指针类型 widnows api UpdateLayeredWindow 的函数指针
 PFUNCUPDATELAYEREDWINDOW g_fUpdateLayeredWindow = NULL;
 
 HPEN m_hUpdateRectPen = NULL;
@@ -607,7 +608,7 @@ void CPaintManagerUI::SetLayered(bool bLayered)
 {
 	if( m_hWndPaint != NULL && bLayered != m_bLayered ) {
 		UINT uStyle = GetWindowStyle(m_hWndPaint);
-		if( (uStyle & WS_CHILD) != 0 ) return;
+		if( (uStyle & WS_CHILD) != 0 ) return;   // 如果是 子窗口 就返回
 
 		if( g_fUpdateLayeredWindow == NULL ) {
 			HMODULE hUser32 = ::GetModuleHandle(_T("User32.dll"));
@@ -620,10 +621,12 @@ void CPaintManagerUI::SetLayered(bool bLayered)
 		DWORD dwExStyle = ::GetWindowLong(m_hWndPaint, GWL_EXSTYLE);
 		DWORD dwNewExStyle = dwExStyle;
 		if( bLayered ) {
+            // 添加 透明属性
 			dwNewExStyle |= WS_EX_LAYERED;
 			::SetTimer(m_hWndPaint, LAYEREDUPDATE_TIMERID, 10L, NULL);
 		}
 		else {
+            // 删去 透明属性
 			dwNewExStyle &= ~WS_EX_LAYERED;
 			::KillTimer(m_hWndPaint, LAYEREDUPDATE_TIMERID);
 		}
@@ -1146,6 +1149,7 @@ bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
     case WM_TIMER:
         {
 			if( LOWORD(wParam) == LAYEREDUPDATE_TIMERID ) {
+                // windows api IsRectEmpty 确定指定的矩形是否为空，右侧坐标小于或等于左侧坐标，或者底侧坐标小于或等于顶侧坐标
 				if( m_bLayered && !::IsRectEmpty(&m_rcLayeredUpdate) ) {
 					LRESULT lRes = 0;
 					if( !::IsIconic(m_hWndPaint) ) MessageHandler(WM_PAINT, 0, 0L, lRes);
@@ -1923,12 +1927,14 @@ void CPaintManagerUI::RemoveAllTimers()
 
 void CPaintManagerUI::SetCapture()
 {
+    // windows api 将鼠标捕获设置为属于当前线程的指定窗口
     ::SetCapture(m_hWndPaint);
     m_bMouseCapture = true;
 }
 
 void CPaintManagerUI::ReleaseCapture()
 {
+    // windows api 从当前线程中的窗口释放鼠标捕获并恢复正常的鼠标输入处理
     ::ReleaseCapture();
     m_bMouseCapture = false;
 }
@@ -2164,6 +2170,7 @@ void CPaintManagerUI::SendNotify(TNotifyUI& Msg, bool bAsync /*= false*/, bool b
             if( Msg.pSender->OnNotify ) Msg.pSender->OnNotify(&Msg);
         }
         for( int i = 0; i < m_aNotifiers.GetSize(); i++ ) {
+            // 同步发送消息，直接实现接口，调用
             static_cast<INotifyUI*>(m_aNotifiers[i])->Notify(Msg);
         }
     }
@@ -2191,7 +2198,7 @@ void CPaintManagerUI::SendNotify(TNotifyUI& Msg, bool bAsync /*= false*/, bool b
 		pMsg->ptMouse = Msg.ptMouse;
 		pMsg->dwTimestamp = Msg.dwTimestamp;
 		m_aAsyncNotify.Add(pMsg);
-
+        // 异步发送消息，使用 postmsg 
 		PostAsyncNotify();
     }
 }
@@ -3444,6 +3451,7 @@ CControlUI* CALLBACK CPaintManagerUI::__FindControlFromCount(CControlUI* /*pThis
 CControlUI* CALLBACK CPaintManagerUI::__FindControlFromPoint(CControlUI* pThis, LPVOID pData)
 {
     LPPOINT pPoint = static_cast<LPPOINT>(pData);
+    // windows api 确定指定点是否位于指定矩形内
     return ::PtInRect(&pThis->GetPos(), *pPoint) ? pThis : NULL;
 }
 
